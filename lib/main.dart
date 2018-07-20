@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies/movies/movies_page.dart';
+import 'package:movies/utils/colors.dart';
 
 void main() => runApp(new MyApp());
 
@@ -8,7 +9,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: MovieColors.primary,
+        accentColor: MovieColors.primaryDark,
+        cardColor: MovieColors.primaryDark
       ),
       home: new MoviesPage(),
       debugShowCheckedModeBanner: false,

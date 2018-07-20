@@ -27,7 +27,6 @@ class MoviesPage extends StatefulWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: Card(
-        color: MovieColors.card,
         child: Image.network(
           movies.first.poster,
           fit: BoxFit.cover,
@@ -46,11 +45,11 @@ class MoviesPage extends StatefulWidget {
         delegate: SliverChildListDelegate(
             movies.where((movie) => movie != movies[0]).map((Movie movie) {
           return Card(
-              color: MovieColors.card,
-              child: Image.network(
-                movie.poster,
-                fit: BoxFit.cover,
-              ));
+            child: Image.network(
+              movie.poster,
+              fit: BoxFit.cover,
+            )
+          );
         }).toList()));
   }
 }
@@ -79,7 +78,7 @@ class _MoviesPageState extends State<MoviesPage> {
       appBar: AppBar(
         title: Text("Now Playing"),
         elevation: 0.0,
-        backgroundColor: MovieColors.diagonalBackground,
+        backgroundColor: MovieColors.primary,
       ),
       body: _inProgress ? _progressIndicator() : _body(context),
     );

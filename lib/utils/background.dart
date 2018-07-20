@@ -7,7 +7,7 @@ class Background extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.height;
     return ClipPath(
       child: Container(
-        color: MovieColors.diagonalBackground,
+        color: MovieColors.primary,
         width: screenWidth,
         height: MediaQuery.of(context).size.width - 10.0
       ),
