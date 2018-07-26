@@ -2,34 +2,43 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:movies/dependencyinjection/injector.dart';
 import 'package:movies/model/movie.dart';
 import 'package:movies/movies/movies_page.dart';
+import '../repository/mock_movies_repository.dart';
+import 'package:movies/repository/movies_repository.dart';
 
 import '../util/finders.dart';
 import '../util/mock_http_client.dart';
 
 void main() {
+  MockMoviesRepository moviesRepository = MockMoviesRepository();
+
   setUp(() {
     HttpOverrides.global = TestHttpOverrides();
+    Injector().override(MoviesRepository, moviesRepository);
   });
   
   group("Movies Page", () {
-    testWidgets("displays progress indicator on start", (WidgetTester tester) async {
+    testWidgets("displays progress indicator on start", (tester) async {
       await tester.pumpWidget(MaterialApp(home: MoviesPage()));
+      await tester.pump();
 
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
       await tester.pumpAndSettle();
     });
 
-    testWidgets("dismisses progress indicator when data loaded", (WidgetTester tester) async {
+    testWidgets("dismisses progress indicator when data loaded", (tester) async {
       await tester.pumpWidget(MaterialApp(home: MoviesPage()));
       await tester.pumpAndSettle();
 
       expect(find.byType(CircularProgressIndicator), findsNothing);
     });
 
-    testWidgets("shows all movies", (WidgetTester tester) async {
+    testWidgets("shows all movies", (tester) async {
+      moviesRepository.respondWith(movies);
+
       await tester.pumpWidget(MaterialApp(home: MoviesPage()));
       await tester.pumpAndSettle();
 
@@ -40,6 +49,24 @@ void main() {
 
       await scrollDown(tester);
       expect(findImage(movies.last.poster), findsOneWidget);
+    });
+
+    testWidgets("shows empty page when no movies are found", (tester) async {
+      moviesRepository.respondWith([]);
+
+      await tester.pumpWidget(MaterialApp(home: MoviesPage()));
+      await tester.pumpAndSettle();
+
+      expect(find.text("No movies found."), findsOneWidget);
+    });
+
+    testWidgets("shows error message when api call fails", (tester) async {
+      moviesRepository.throwException(Exception("Error"));
+
+      await tester.pumpWidget(MaterialApp(home: MoviesPage()));
+      await tester.pumpAndSettle();
+
+      expect(find.text("Something wrong happened. Please try again later."), findsOneWidget);
     });
   });
 }

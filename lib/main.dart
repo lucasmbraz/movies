@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:movies/movies/movies_page.dart';
 import 'package:movies/utils/colors.dart';
 
-void main() => runApp(new MyApp());
+void main() => runApp(new App());
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(

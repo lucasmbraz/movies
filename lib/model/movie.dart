@@ -3,6 +3,9 @@ class Movie {
   final String poster;
 
   const Movie(this.id, this.poster);
+
+  @override
+  String toString() => "{id=$id, poster=${poster.substring(32)}";
 }
 
 List<Movie> movies = [
