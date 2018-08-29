@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movies/dependencyinjection/injector.dart';
 import 'package:movies/model/movie.dart';
 import 'package:movies/movies/movies_bloc.dart';
+import 'package:movies/utils/background.dart';
 import 'package:movies/utils/colors.dart';
 
 class MoviesPage extends StatelessWidget {
@@ -34,7 +35,12 @@ class MoviesPage extends StatelessWidget {
         if (snapshot.data.movies.isEmpty) {
           return SadPath("No movies found.");
         }
-        return _movieGrid(context, snapshot.data.movies);
+        return Stack(
+          children: <Widget>[
+            Background(),
+            _movieGrid(context, snapshot.data.movies)
+          ]
+        );
       },
     );
   }
