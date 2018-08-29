@@ -92,7 +92,7 @@ class SadPath extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(_message, style: Theme.of(context).textTheme.display3),
+      child: Text(_message, style: Theme.of(context).textTheme.display1, textAlign: TextAlign.center,),
     );
   }
 }

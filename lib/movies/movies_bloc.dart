@@ -23,7 +23,10 @@ class MoviesBloc {
     _subject.addStream(_repository.getNowPlayingMovies()
         .map((movies) => MoviesViewState(movies: movies))
         .startWith(MoviesViewState(isLoading: true))
-        .onErrorReturn(MoviesViewState(error: "Something wrong happened. Please try again later."))
+        .onErrorReturnWith((e) {
+          print(e);
+          return MoviesViewState(error: "Something wrong happened. Please try again later.");
+        })
     );
   }
 

@@ -37,18 +37,19 @@ void main() {
     });
 
     testWidgets("shows all movies", (tester) async {
-      moviesRepository.respondWith(movies);
+      var sampleMovies = MockMoviesRepository.SAMPLE_MOVIES;
+      moviesRepository.respondWith(sampleMovies);
 
       await tester.pumpWidget(MaterialApp(home: MoviesPage()));
       await tester.pumpAndSettle();
 
-      expect(findImage(movies.first.poster), findsOneWidget);
+      expect(findImage(sampleMovies.first.poster), findsOneWidget);
 
       await scrollDown(tester);
-      expect(findImage(movies[3].poster), findsOneWidget);
+      expect(findImage(sampleMovies[3].poster), findsOneWidget);
 
       await scrollDown(tester);
-      expect(findImage(movies.last.poster), findsOneWidget);
+      expect(findImage(sampleMovies.last.poster), findsOneWidget);
     });
 
     testWidgets("shows empty page when no movies are found", (tester) async {
