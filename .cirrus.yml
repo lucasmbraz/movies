@@ -6,6 +6,4 @@ test_task:
     folder: ~/.pub-cache
   start_emulator_background_script: >
     $ANDROID_HOME/emulator/emulator \
-        -avd test \
-        -no-audio \
-        -no-window
+        -list-avds \
