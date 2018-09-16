@@ -19,4 +19,5 @@ flutter_task:
   widget_tests_script: flutter test --coverage
   wait_for_emulator_script:
     - adb wait-for-device
-  integration_tests_script: flutter drive --target=test_driver/app.dart
+  # integration_tests_script: flutter drive --target=test_driver/app.dart
+  integration_tests_script: flutter run
