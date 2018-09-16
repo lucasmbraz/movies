@@ -4,7 +4,7 @@ container:
   memory: 16G
 
 flutter_task:
-  kvm_script: sudo apt-get install qemu-kvm libvirt-bin ubuntu-vm-builder bridge-utils
+  kvm_script: sudo apt install -y qemu-kvm libvirt0 virt-manager bridge-utils
   install_sdk_cache:
     folder: $ANDROID_HOME/system-images
     populate_script: sdkmanager "system-images;android-27;google_apis_playstore;x86"
