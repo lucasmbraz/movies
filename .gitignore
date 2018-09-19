@@ -3,7 +3,8 @@
 .idea/
 .packages
 .pub/
-
+pubspec.lock
+*.iml
 build/
 
 .flutter-plugins
