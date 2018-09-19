@@ -1,0 +1,16 @@
+steps:
+  - label: Install system image
+    command: sdkmanager "system-images;android-27;google_apis;x86"
+
+  - wait
+
+  - label: Widget tests
+    command: flutter test
+
+  - label: Create emulator
+    command: echo no | avdmanager create avd --force -n movies-emulator -k "system-images;android-27;google_apis;x86" -d pixel_xl
+
+  - wait
+
+  - label: Flutter Drive
+    command: .buildkite/script.sh
