@@ -21,7 +21,12 @@ class MoviesBloc {
 
   MoviesBloc(this._repository) {
     _subject.addStream(_repository.getNowPlayingMovies()
-        .map((movies) => MoviesViewState(movies: movies))
+        .map((movies) {
+          if (movies.isEmpty) {
+            return MoviesViewState(error: "No movies found.");
+          }
+          return MoviesViewState(movies: movies);
+        })
         .startWith(MoviesViewState(isLoading: true))
         .onErrorReturnWith((e) {
           print(e);

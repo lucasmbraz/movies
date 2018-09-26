@@ -3,16 +3,15 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:movies/dependencyinjection/injector.dart';
-import 'package:movies/model/movie.dart';
 import 'package:movies/movies/movies_page.dart';
-import '../repository/mock_movies_repository.dart';
 import 'package:movies/repository/movies_repository.dart';
 
+import '../repository/mock_movies_repository.dart';
 import '../util/finders.dart';
 import '../util/mock_http_client.dart';
 
 void main() {
-  MockMoviesRepository moviesRepository = MockMoviesRepository();
+  FakeMoviesRepository moviesRepository = FakeMoviesRepository();
 
   setUp(() {
     HttpOverrides.global = TestHttpOverrides();
@@ -37,7 +36,7 @@ void main() {
     });
 
     testWidgets("shows all movies", (tester) async {
-      var sampleMovies = MockMoviesRepository.SAMPLE_MOVIES;
+      var sampleMovies = FakeMoviesRepository.SAMPLE_MOVIES;
       moviesRepository.respondWith(sampleMovies);
 
       await tester.pumpWidget(MaterialApp(home: MoviesPage()));

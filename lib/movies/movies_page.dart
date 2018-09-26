@@ -23,29 +23,33 @@ class MoviesPage extends StatelessWidget {
     return StreamBuilder<MoviesViewState>(
       stream: bloc.viewState,
       builder: (context, snapshot) {
-        if (snapshot.data == null) {
+        final viewState = snapshot.data;
+        if (viewState == null) {
           return Container();
         }
-        if (snapshot.data.isLoading) {
+        if (viewState.isLoading) {
           return _progressIndicator();
         }
-        if (snapshot.data.error != null) {
-          return SadPath(snapshot.data.error);
+        if (viewState.error != null) {
+          return _sadPath(viewState.error);
         }
-        if (snapshot.data.movies.isEmpty) {
-          return SadPath("No movies found.");
-        }
-        return Stack(
-          children: <Widget>[
-            Background(),
-            _movieGrid(context, snapshot.data.movies)
-          ]
-        );
+        return _content(context, viewState);
       },
     );
   }
 
   Widget _progressIndicator() => Center(child: CircularProgressIndicator());
+
+  Widget _sadPath(String errorMessage) => SadPath(errorMessage);
+
+  Widget _content(BuildContext context, MoviesViewState viewState) {
+    return Stack(
+        children: <Widget>[
+          Background(),
+          _movieGrid(context, viewState.movies)
+        ]
+      );
+  }
 
   Widget _movieGrid(BuildContext context, List<Movie> movies) {
     return Padding(

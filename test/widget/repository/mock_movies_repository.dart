@@ -2,7 +2,7 @@ import 'package:movies/model/movie.dart';
 import 'package:movies/repository/movies_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
-class MockMoviesRepository implements MoviesRepository {
+class FakeMoviesRepository implements MoviesRepository {
   static const SAMPLE_MOVIES = [
     Movie(351286, "https://image.tmdb.org/t/p/w342/c9XxwwhPHdaImA2f1WEfEsbhaFB.jpg"),
     Movie(363088, "https://image.tmdb.org/t/p/w342/rv1AWImgx386ULjcf62VYaW8zSt.jpg"),
