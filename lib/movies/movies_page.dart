@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies/dependencyinjection/injector.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:movies/model/movie.dart';
-import 'package:movies/movies/movies_bloc.dart';
+import 'package:movies/redux/actions.dart';
+import 'package:movies/redux/app_state.dart';
 import 'package:movies/utils/background.dart';
 import 'package:movies/utils/colors.dart';
 
@@ -19,21 +20,18 @@ class MoviesPage extends StatelessWidget {
   }
 
   Widget _body(BuildContext context) {
-    final bloc = Injector().moviesBloc;
-    return StreamBuilder<MoviesViewState>(
-      stream: bloc.viewState,
-      builder: (context, snapshot) {
-        final viewState = snapshot.data;
-        if (viewState == null) {
-          return Container();
-        }
-        if (viewState.isLoading) {
+    return StoreConnector<AppState, AppState>(
+      onInit: (store) => store.dispatch(FetchMoviesAction()),
+      converter: (store) => store.state,
+      builder: (context, state) {
+        if (state.status == Status.LOADING) {
           return _progressIndicator();
         }
-        if (viewState.error != null) {
-          return _sadPath(viewState.error);
+        if (state.status == Status.ERROR || state.movies.isEmpty) {
+          return _sadPath("Error");
         }
-        return _content(context, viewState);
+
+        return _content(context, state.movies);
       },
     );
   }
@@ -42,13 +40,8 @@ class MoviesPage extends StatelessWidget {
 
   Widget _sadPath(String errorMessage) => SadPath(errorMessage);
 
-  Widget _content(BuildContext context, MoviesViewState viewState) {
-    return Stack(
-        children: <Widget>[
-          Background(),
-          _movieGrid(context, viewState.movies)
-        ]
-      );
+  Widget _content(BuildContext context, List<Movie> movies) {
+    return Stack(children: <Widget>[Background(), _movieGrid(context, movies)]);
   }
 
   Widget _movieGrid(BuildContext context, List<Movie> movies) {
@@ -82,15 +75,13 @@ class MoviesPage extends StatelessWidget {
           crossAxisCount: 3,
           childAspectRatio: 0.75,
         ),
-        delegate: SliverChildListDelegate(
-            movies.where((movie) => movie != movies[0]).map((movie) {
-              return Card(
-                  child: Image.network(
-                    movie.poster,
-                    fit: BoxFit.cover,
-                  )
-              );
-            }).toList()));
+        delegate: SliverChildListDelegate(movies.where((movie) => movie != movies[0]).map((movie) {
+          return Card(
+              child: Image.network(
+            movie.poster,
+            fit: BoxFit.cover,
+          ));
+        }).toList()));
   }
 }
 
@@ -105,9 +96,7 @@ class SadPath extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: Center(
         child: Text(_message,
-          style: Theme.of(context).textTheme.headline,
-          textAlign: TextAlign.center
-        ),
+            style: Theme.of(context).textTheme.headline, textAlign: TextAlign.center),
       ),
     );
   }

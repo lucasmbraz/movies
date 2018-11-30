@@ -2,22 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:movies/dependencyinjection/injector.dart';
 import 'package:movies/movies/movies_page.dart';
-import 'package:movies/repository/movies_repository.dart';
 
 import '../repository/mock_movies_repository.dart';
 import '../util/finders.dart';
 import '../util/mock_http_client.dart';
+//import 'package:movies/dependencyinjection/injector.dart';
+//import 'package:movies/repository/movies_repository.dart';
 
 void main() {
   FakeMoviesRepository moviesRepository = FakeMoviesRepository();
 
   setUp(() {
     HttpOverrides.global = TestHttpOverrides();
-    Injector().override(MoviesRepository, moviesRepository);
+//    Injector().override(MoviesRepository, moviesRepository);
   });
-  
+
   group("Movies Page", () {
     testWidgets("displays progress indicator on start", (tester) async {
       await tester.pumpWidget(MaterialApp(home: MoviesPage()));

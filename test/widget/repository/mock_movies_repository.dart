@@ -1,6 +1,6 @@
 import 'package:movies/model/movie.dart';
 import 'package:movies/repository/movies_repository.dart';
-import 'package:rxdart/rxdart.dart';
+//import 'package:rxdart/rxdart.dart';
 
 class FakeMoviesRepository implements MoviesRepository {
   static const SAMPLE_MOVIES = [
@@ -16,14 +16,14 @@ class FakeMoviesRepository implements MoviesRepository {
   List<Movie> _movies = [];
   Exception _exception;
 
-  @override
-  Observable<List<Movie>> getNowPlayingMovies() {
-    if (_exception != null) {
-      return Observable.error(_exception);
-    }
-
-    return Observable.timer(null, Duration(seconds: 1)).map((_) => _movies);
-  }
+//  @override
+//  Observable<List<Movie>> getNowPlayingMovies() {
+//    if (_exception != null) {
+//      return Observable.error(_exception);
+//    }
+//
+//    return Observable.timer(null, Duration(seconds: 1)).map((_) => _movies);
+//  }
 
   respondWith(List<Movie> movies) {
     _movies = movies;
